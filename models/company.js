@@ -39,7 +39,12 @@ class Company {
     return company;
   }
 
-  /** Find all companies.
+  /** Find all companies with optional filters (searchValues).
+   * 
+   * Optional searchValues:
+   * - name
+   * - minEmployees
+   * - maxEmployees
    *
    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
    * */
