@@ -11,9 +11,10 @@ const Company = require("../models/company");
 
 const companyNewSchema = require("../schemas/companyNew.json");
 const companyUpdateSchema = require("../schemas/companyUpdate.json");
-const companySearchSchema = require("../schemas/companySearchSchema.json");
+const companySearchSchema = require("../schemas/companySearch.json");
 
 const router = new express.Router();
+
 
 /** POST / { company } =>  { company }
  *
@@ -28,7 +29,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, companyNewSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
 
@@ -51,20 +52,19 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
-  const query = req.query;
-  // convert str of employees query to INT.
-  if (query.minEmployees !== undefined)
-    query.minEmployees = parseInt(query.minEmployees);
-  if (query.maxEmployees !== undefined)
-    query.maxEmployees = parseInt(query.maxEmployees);
+  const q = req.query;
+  // arrive as strings from querystring, but we want as ints
+  if (q.minEmployees !== undefined) q.minEmployees = +q.minEmployees;
+  if (q.maxEmployees !== undefined) q.maxEmployees = +q.maxEmployees;
 
   try {
-    const validator = jsonschema.validate(query, companySearchSchema);
+    const validator = jsonschema.validate(q, companySearchSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
-    const companies = await Company.findAll(query);
+
+    const companies = await Company.findAll(q);
     return res.json({ companies });
   } catch (err) {
     return next(err);
@@ -103,7 +103,7 @@ router.patch("/:handle", ensureAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, companyUpdateSchema);
     if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
+      const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
 
@@ -127,5 +127,6 @@ router.delete("/:handle", ensureAdmin, async function (req, res, next) {
     return next(err);
   }
 });
+
 
 module.exports = router;
