@@ -1,0 +1,3 @@
+- Jobly is a job searching API using JWT tokens for AUTH
+
+First task was to write tests for sqlForPartialUpdate

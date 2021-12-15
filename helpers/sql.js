@@ -1,7 +1,10 @@
 const { BadRequestError } = require("../expressError");
-
-// THIS NEEDS SOME GREAT DOCUMENTATION.
-
+/** 
+ * Used to partially update Company, User and Job models.
+ * Only updates cols that are passed in, ignores cols that aren't.
+ * 
+ * Throws BadRequestError if no data.
+*/
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
   if (keys.length === 0) throw new BadRequestError("No data");
