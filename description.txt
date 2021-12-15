@@ -1,3 +1,25 @@
 - Jobly is a job searching API using JWT tokens for AUTH
 
-First task was to write tests for sqlForPartialUpdate
+First task was to write tests and documentation for sqlForPartialUpdate
+
+Next, added filtering to Company.findAll()
+    Can now pass in filters in a query string (All Optional):
+        - name
+        - minEmployees
+        - maxEmployees
+
+Thirdly, Fixed AUTH for companies and Users using middleware
+    specially ensureAdmin() and ensureUserorAdmin()
+    Companies and Users Auth tested.
+
+Fourth Jobs. companies can have serveral jobs.
+    On equity col we use the Numeric field type because it provides
+    more specific requires on the value. Numeric field takes in two
+    arguements (precision, scale). Precision is total digits, scale
+    is amout of digits to right of decimal and they are exact.
+
+    Job model based off Company model, similar architecture/filtering.
+    Added jobs array to companies. Get /companies/:handle
+
+Finally, added User.applyToJob() method and /:username/jobs/:id route
+    to allow user to apply for a job.
