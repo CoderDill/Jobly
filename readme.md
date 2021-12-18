@@ -2,6 +2,10 @@
 
 This is the Express backend for Jobly, version 2.
 
+First run:
+
+    npm install
+
 To run this:
 
     node server.js
